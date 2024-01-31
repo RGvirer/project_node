@@ -15,7 +15,7 @@ const app=express();
 app.use(express.static('images'));
 app.use(morgan("common"));
 app.use(express.json());
-app.use(cors());
+app.use(cors({origin:"https://storeserver-uoax.onrender.com"}));
 app.use("/api/products",productRouter);
 app.use("/api/users",userRouter);
 app.use("/api/orders",orderRouter);
