@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema(
         name: { type: String, required: true },
         description: {type: String, required: true},
         manufacturingDate: {type: Date},
-        routingToImage: {type: String, default:'https://localhost:6000/מיכאל.jpg'}
+        routingToImage: {type: String, default:'https://storeserver-uoax.onrender.com/מיכאל.jpg'}
     }
 );
 
@@ -19,7 +19,7 @@ export const productValidator = (_productToValidate) => {
         name: joi.string().required(),
         description:joi.string().required(),
         manufacturingDate:joi.date().default(Date.now),
-        routingToImage: joi.string().default('https://localhost:6000/מיכאל.jpg').replace(/^/, 'https://localhost:6000/'),
+        routingToImage: joi.string().default(https://storeserver-uoax.onrender.com/מיכאל.jpg').replace(/^/, 'https://storeserver-uoax.onrender.com/'),
     });
     return productJoi.validate(_productToValidate)
 }
