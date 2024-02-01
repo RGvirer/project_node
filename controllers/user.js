@@ -19,9 +19,9 @@ export const addNewUser = async (req, res) => {
         let hushPassword = await bcyript.hash(password, 15);
         let newUser = new User({ name, password: hushPassword, email });
         await newUser.save();
-        let { _id, name: n, email: e} = newUser;
+        let { _id, name: userName, email: userEmail} = newUser;
         let token = generateToken(newUser);
-        res.json({ _id, n, e  ,token});
+        res.json({ _id, userName, userEmail  ,token});
     }
     catch (err) {
         res.status(400).send("an error occured in: " + err.message);
@@ -65,9 +65,9 @@ export const login = async (req, res) => {
             return res.status(404).send("there is no user with such credentials");
         if (!await bcyript.compare(password, loggedInUser.password))
             return res.status(404).send("there is no user with such credentials");
-        let { _id, name: n, roles, email: e } = loggedInUser;
+        let { _id, name: userName, roles, email: userEmail } = loggedInUser;
         let token = generateToken(loggedInUser);
-        res.json({ _id, name: n, roles, email: e, token });
+        res.json({ _id, name: userName, roles, email: userEmail, token });
     }
     catch (err) {
         res.status(500).send("an error occured in: " + err.message);
