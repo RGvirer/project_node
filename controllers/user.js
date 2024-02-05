@@ -1,20 +1,20 @@
 import { User, userValidator } from "../models/user.js";
 import mongoose from "mongoose";
-import bcyript from "bcryptjs"
+import bcyript from "bcryptjs";
 import { generateToken } from "../config/jwt.js";
 
 export const addNewUser = async (req, res) => {
     try {
         let { name, password, email } = req.body;
         if (!name || !password || !email)
-            return res.status(404).send("one of the parameters is missing")
+            return res.status(404).send("one of the parameters is missing");
         let validate = userValidator(req.body);
         if (validate.error) {
             res.status(400).send(validate.error.details[0]);
         }
         let sameUsers = await User.find(req.body);
         if (sameUsers.length > 0) {
-            res.status(409).send("this user already exists ")
+            res.status(409).send("this user already exists ");
         }
         let hushPassword = await bcyript.hash(password, 15);
         let newUser = new User({ name, password: hushPassword, email });
@@ -42,11 +42,11 @@ export const getUserById = async (req, res) => {
     try {
         let { id } = req.params;
         if (!mongoose.isValidObjectId(id))
-            return res.status(400).send("this id is not valid")
+            return res.status(400).send("this id is not valid");
         let user = await User.findById(id);
         if (!user)
             return res.status(404).send("no such product");
-        res.json(user)
+        res.json(user);
     }
     catch (err) {
         res.status(400).send("The user cannot be received " + err.message);
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
         if (!user || !password)
             return res.status(404).send("missing required parameter");
         if (!/[0-9]{2}[A-Za-z]{2}/.test(password))
-            return res.status(400).send("password is not valid")
+            return res.status(400).send("password is not valid");
         let loggedInUser = await User.findOne({ user });
         if (!loggedInUser)
             return res.status(404).send("there is no user with such credentials");
@@ -78,11 +78,11 @@ export const deleteUserById = async (req, res) => {
     let { id } = req.params;
     try {
         if (!mongoose.isValidObjectId(id))
-            return res.status(400).send("id inst valid")
+            return res.status(400).send("id isn't valid");
         let user = await User.findByIdAndDelete(id);
         if (!user)
             return res.status(404).send("no such user");
-        res.json(user)
+        res.json(user);
     }
     catch (err) {
         res.status(400).send("problem " + err.message);
@@ -94,7 +94,7 @@ export const updateUserById = async (req, res) => {
     let { name } = req.body;
     try {
         if (!mongoose.isValidObjectId(id))
-            return res.status(400).send("id inst valid")
+            return res.status(400).send("id inst valid");
         let user = await User.findById(id);
         if (!user)
             return res.status(404).send("no such user");
