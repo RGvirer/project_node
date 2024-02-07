@@ -2,7 +2,7 @@ import { Product, productValidator } from "../models/product.js";
 import mongoose from "mongoose";
 
 export const getAllProducts = async (req, res) => {
-    let { name, description, routingToImage,manufacturingDate} = req.query;
+    let { name, description, routingToImage, manufacturingDate } = req.query;
     try {
         let allProducts = {};
         let searchObject = {};
@@ -17,6 +17,37 @@ export const getAllProducts = async (req, res) => {
         res.status(400).send("not all products are available " + err.message);
     }
 }
+
+// export const getAllProducts = async (req, res) => {
+//     try {
+//         let { productsInScreen, numOfScreen, textToSearch, minPrice, maxPrice } = req.query;
+//         if (!productsInScreen)
+//             productsInScreen = 30;
+//         if (!numOfScreen)
+//             numOfScreen = 1;
+//         let search = {};
+//         if (textToSearch) {
+//             search = {
+//                 $or: [{ model: { $regex: `.*${textToSearch}.*`, $options: 'i' } },
+//                 { description: { $regex: `.*${textToSearch}.*`, $options: 'i' } }]
+//             };
+//         }
+//         if (minPrice || maxPrice) {
+//             search.price = {};
+//             if (minPrice) {
+//                 search.price.$gte = parseFloat(minPrice);
+//             }
+//             if (maxPrice) {
+//                 search.price.$lte = parseFloat(maxPrice);
+//             }
+//         }
+//         let products = await Product.find(search).skip((numOfScreen - 1) * productsInScreen).limit(productsInScreen);
+//         res.json(products);
+//     } catch (err) {
+//         res.status(400).send("problem: " + err.message);
+//     }
+// };
+
 
 export const getProductById = async (req, res) => {
     try {
@@ -54,14 +85,14 @@ export const addNewProduct = async (req, res) => {
         let ownerUser = req.uuser._id;
         if (validate.error) {
             for (let i = 0; i < validate.error.length; i++) {
-              console.log(validate.error[i]);
+                console.log(validate.error[i]);
             }
             return res.status(400).json(validate.error[0]);
-          }
-          
+        }
+
         let sameProducts = await Product.find(req.body);
         if (sameProducts.length > 0)
-           return res.status(409).send("this product already exists ");
+            return res.status(409).send("this product already exists ");
         let newProduct = new Product({ name, description, routingToImage, manufacturingDate, ownerUser });
         await newProduct.save();
         res.status(201).json(newProduct)

@@ -6,8 +6,6 @@ import { generateToken } from "../config/jwt.js";
 export const addNewUser = async (req, res) => {
     try {
         let { name, password, email } = req.body;
-        if (!name || !password || !email)
-            return res.status(404).send("one of the parameters is missing");
         let validate = userValidator(req.body);
         if (validate.error) {
             res.status(400).send(validate.error.details[0]);
@@ -26,7 +24,6 @@ export const addNewUser = async (req, res) => {
     catch (err) {
         res.status(400).send("an error occured in: " + err.message);
     }
-
 }
 
 export const getAllUsers = async (req, res) => {
