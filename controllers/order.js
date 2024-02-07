@@ -1,10 +1,6 @@
 import { Order, orderValidator } from "../models/order.js";
 import mongoose from "mongoose";
 
-// ספרייה שמגבבת קוד
-import bcyript from "bcryptjs"
-import { generateToken } from "../config/jwt.js";
-
 export const addNewOrder = async (req, res) => {
     try {
         let owner = req.uuser._id;

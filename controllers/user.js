@@ -19,9 +19,9 @@ export const addNewUser = async (req, res) => {
         let hushPassword = await bcyript.hash(password, 15);
         let newUser = new User({ name, password: hushPassword, email });
         await newUser.save();
-        let { _id, name: userName, email: userEmail} = newUser;
+        let { _id, name: userName, email: userEmail } = newUser;
         let token = generateToken(newUser);
-        res.json({ _id, userName, userEmail  ,token});
+        res.json({ _id, userName, userEmail, token });
     }
     catch (err) {
         res.status(400).send("an error occured in: " + err.message);
@@ -31,7 +31,7 @@ export const addNewUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        let allUsers = await User.find({},"-password");
+        let allUsers = await User.find({}, "-password");
         res.json(allUsers);
     }
     catch (err) {
@@ -52,22 +52,22 @@ export const getUserById = async (req, res) => {
         res.status(400).send("The user cannot be received " + err.message);
     }
 }
+
 export const login = async (req, res) => {
     try {
         let { email, password } = req.body;
-        let user = await User.findOne({ email });
-        if (!user || !password)
+        if (!email || !password)
             return res.status(404).send("missing required parameter");
+        let user = await User.findOne({ email });
+        if (!user)
+            return res.status(404).send("there is no user with such credentials");
         if (!/[0-9]{2}[A-Za-z]{2}/.test(password))
             return res.status(400).send("password is not valid");
-        let loggedInUser = await User.findOne({ user });
-        if (!loggedInUser)
-            return res.status(404).send("there is no user with such credentials");
-        if (!await bcyript.compare(password, loggedInUser.password))
-            return res.status(404).send("there is no user with such credentials");
-        let { _id, name: userName, roles, email: userEmail } = loggedInUser;
-        let token = generateToken(loggedInUser);
-        res.json({ _id, name: userName, roles, email: userEmail, token });
+        if (!await bcyript.compare(password, user.password))
+            return res.status(404).send("password error");
+        let { _id, name, role, email: userEmail } = user;
+        let token = generateToken(user);
+        res.json({ _id, name, role, userEmail, token });
     }
     catch (err) {
         res.status(500).send("an error occured in: " + err.message);

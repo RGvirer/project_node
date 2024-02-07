@@ -1,7 +1,5 @@
 import { Product, productValidator } from "../models/product.js";
 import mongoose from "mongoose";
-import bcyript from "bcryptjs"
-import { generateToken } from "../config/jwt.js";
 
 export const getAllProducts = async (req, res) => {
     let { name, description, routingToImage,manufacturingDate} = req.query;
