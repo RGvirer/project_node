@@ -68,8 +68,7 @@ export const deleteProductById = async (req, res) => {
     if (!mongoose.isValidObjectId(id))
         return res.status(400).send("not valid id");
     let product = await Product.findById(id);
-    let userrole=await Product.findById(ownerUser)
-    if (product.ownerUser != req.uuser._id && userrole.role != "admin")
+    if (product.ownerUser != req.uuser._id)
         return res.status(403).send("you can only delete products that you have added");
     let deletedProduct = await Product.findByIdAndDelete(id);
     if (!deletedProduct)
