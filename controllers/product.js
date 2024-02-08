@@ -1,52 +1,52 @@
 import { Product, productValidator } from "../models/product.js";
 import mongoose from "mongoose";
 
-export const getAllProducts = async (req, res) => {
-    let { name, description, routingToImage, manufacturingDate } = req.query;
-    try {
-        let allProducts = {};
-        let searchObject = {};
-        if (name)
-            searchObject.name = new RegExp(name, "i");
-        if (description)
-            searchObject.description = description;
-        allProducts = await Product.find(searchObject)
-        res.json(allProducts);
-    }
-    catch (err) {
-        res.status(400).send("not all products are available " + err.message);
-    }
-}
-
 // export const getAllProducts = async (req, res) => {
+//     let { name, description, routingToImage, manufacturingDate } = req.query;
 //     try {
-//         let { productsInScreen, numOfScreen, textToSearch, minPrice, maxPrice } = req.query;
-//         if (!productsInScreen)
-//             productsInScreen = 30;
-//         if (!numOfScreen)
-//             numOfScreen = 1;
-//         let search = {};
-//         if (textToSearch) {
-//             search = {
-//                 $or: [{ model: { $regex: `.*${textToSearch}.*`, $options: 'i' } },
-//                 { description: { $regex: `.*${textToSearch}.*`, $options: 'i' } }]
-//             };
-//         }
-//         if (minPrice || maxPrice) {
-//             search.price = {};
-//             if (minPrice) {
-//                 search.price.$gte = parseFloat(minPrice);
-//             }
-//             if (maxPrice) {
-//                 search.price.$lte = parseFloat(maxPrice);
-//             }
-//         }
-//         let products = await Product.find(search).skip((numOfScreen - 1) * productsInScreen).limit(productsInScreen);
-//         res.json(products);
-//     } catch (err) {
-//         res.status(400).send("problem: " + err.message);
+//         let allProducts = {};
+//         let searchObject = {};
+//         if (name)
+//             searchObject.name = new RegExp(name, "i");
+//         if (description)
+//             searchObject.description = description;
+//         allProducts = await Product.find(searchObject)
+//         res.json(allProducts);
 //     }
-// };
+//     catch (err) {
+//         res.status(400).send("not all products are available " + err.message);
+//     }
+// }
+
+export const getAllProducts = async (req, res) => {
+    try {
+        let { productsInScreen, numOfScreen, textToSearch, minPrice, maxPrice } = req.query;
+        if (!productsInScreen)
+            productsInScreen = 30;
+        if (!numOfScreen)
+            numOfScreen = 1;
+        let search = {};
+        if (textToSearch) {
+            search = {
+                $or: [{ model: { $regex: `.*${textToSearch}.*`, $options: 'i' } },
+                { description: { $regex: `.*${textToSearch}.*`, $options: 'i' } }]
+            };
+        }
+        if (minPrice || maxPrice) {
+            search.price = {};
+            if (minPrice) {
+                search.price.$gte = parseFloat(minPrice);
+            }
+            if (maxPrice) {
+                search.price.$lte = parseFloat(maxPrice);
+            }
+        }
+        let products = await Product.find(search).skip((numOfScreen - 1) * productsInScreen).limit(productsInScreen);
+        res.json(products);
+    } catch (err) {
+        res.status(400).send("problem: " + err.message);
+    }
+};
 
 
 export const getProductById = async (req, res) => {
@@ -68,7 +68,7 @@ export const deleteProductById = async (req, res) => {
     if (!mongoose.isValidObjectId(id))
         return res.status(400).send("not valid id");
     let product = await Product.findById(id);
-    if (product.ownerUser != req.uuser._id)
+    if (product.ownerUser != req.uuser._id && product.ownerUser.role != "admin")
         return res.status(403).send("you can only delete products that you have added");
     let deletedProduct = await Product.findByIdAndDelete(id);
     if (!deletedProduct)
