@@ -2,7 +2,7 @@ import joi from "joi"
 import mongoose from "mongoose"
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
-const photosSchema = mongoose.Schema(
+const photoSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
@@ -11,11 +11,11 @@ const photosSchema = mongoose.Schema(
     }
 );
 
-export const Product = mongoose.model("product", photosSchema);
+export const Photo = mongoose.model("photo", photoSchema);
 
 // Joi פונקציה המאמתת את המוצר, המתבססת על סכימה מוגדרת מראש באמצעות ספריית 
-export const photosValidator = (_photosValidate) => {
-    let productJoi = joi.object({
+export const photoValidator = (_photoToValidate) => {
+    let photoJoi = joi.object({
         name: joi.string().required(),
         description: joi.string().required(),
         routingToImage: joi.string().required(),
@@ -24,5 +24,5 @@ export const photosValidator = (_photosValidate) => {
             productId: joi.string().required()
         })).required()
     });
-    return productJoi.validate(_photosValidate);
+    return productJoi.validate(_photoToValidate);
 }
