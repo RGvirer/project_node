@@ -1,4 +1,4 @@
-import joi from "joi"
+// import joi from "joi"
 import mongoose from "mongoose"
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
