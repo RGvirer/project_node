@@ -1,9 +1,11 @@
+import mongoose from "mongoose";
+import { Photo } from "../models/photo";
 export const getAllPhotos = async (req, res) => {
     try {
-        let allPhotos = {};
+        let allPhotos =  await Photo.find();
         res.json(allPhotos);
     }
     catch (err) {
-        res.status(400).send("not all Photos are available " + err.message);
+        res.status(400).send("not all photos are available " + err.message);
     }
 }

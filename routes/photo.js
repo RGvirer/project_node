@@ -1,7 +1,7 @@
 import express from "express";
-import * as photoController from '../controllers/photo.js'
+import getAllPhotos from '../controllers/photos.js'
 
 const router=express.Router();
-router.get("/",photoController.getAllPhotos);
+router.get("/",getAllPhotos);
 
 export default router;
