@@ -5,10 +5,10 @@ import mongoose from "mongoose"
 const productSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
-        description: {type: String, required: true},
-        manufacturingDate: {type: Date},
-        routingToImage: {type: String,required:true},
-        coordinatePoints:{type:[String]},
+        description: { type: String, required: true },
+        manufacturingDate: { type: Date },
+        routingToImage: { type: String, required: true },
+        coordinatePoints: [{ type: String}],
     }
 );
 
@@ -18,8 +18,8 @@ export const Product = mongoose.model("product", productSchema);
 export const productValidator = (_productToValidate) => {
     let productJoi = joi.object({
         name: joi.string().required(),
-        description:joi.string().required(),
-        manufacturingDate:joi.date().default(Date.now),
+        description: joi.string().required(),
+        manufacturingDate: joi.date().default(Date.now),
         routingToImage: joi.string().required(),
         coordinatePoints: joi.array().items(joi.string())
     });
