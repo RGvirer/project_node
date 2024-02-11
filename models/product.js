@@ -1,4 +1,4 @@
-import joi from "joi"
+import joi, { date } from "joi"
 import mongoose from "mongoose"
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
-        manufacturingDate: { type: Date },
+        manufacturingDate: { type: Date},
         routingToImage: { type: String, required: true },
     }
 );
