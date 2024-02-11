@@ -2,6 +2,7 @@ import express from "express";
 import * as productController from '../controllers/product.js'
 import {auth} from "../middlewares/auth.js"
 import {adminAuth} from "../middlewares/authAdmin.js"
+
 //ניתובים אפשריים:
 const router=express.Router();
 router.get("/",productController.getAllProducts);
