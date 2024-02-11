@@ -7,9 +7,7 @@ const photosSchema = mongoose.Schema(
         name: { type: String, required: true },
         description: { type: String, required: true },
         routingToImage: { type: String },
-        imageDetails: [
-            {coordinatePoints: { type: String },productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }}
-        ]
+        imageDetails: [{coordinatePoints: { type: String },productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }}]
     }
 );
 
