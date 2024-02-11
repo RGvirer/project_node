@@ -17,7 +17,7 @@ app.use(express.static('images'));
 app.use(morgan("common"));
 app.use(express.json());
 app.use(cors());
-app.use("/api/photos",photoRouter);
+// app.use("/api/photos",photoRouter);
 app.use("/api/products",productRouter);
 app.use("/api/users",userRouter);
 app.use("/api/orders",orderRouter);
