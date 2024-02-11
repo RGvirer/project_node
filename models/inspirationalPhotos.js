@@ -8,14 +8,10 @@ const inspirationalPhotosSchema = mongoose.Schema(
         description: { type: String, required: true },
         routingToImage: { type: String },
         imageDetails: [
-            {
-                coordinatePoints: { type: String },
-                productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
-            }
+            {coordinatePoints: { type: String },productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }}
         ]
     }
 );
-
 
 export const Product = mongoose.model("product", inspirationalPhotosSchema);
 
