@@ -24,5 +24,5 @@ export const photoValidator = (_photoToValidate) => {
             productId: joi.string().required()
         })).required()
     });
-    return productJoi.validate(_photoToValidate);
+    return photoJoi.validate(_photoToValidate);
 }
