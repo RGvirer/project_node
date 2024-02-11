@@ -1,22 +1,6 @@
 import { Product, productValidator } from "../models/product.js";
 import mongoose from "mongoose";
 
-// export const getAllProducts = async (req, res) => {
-//     let { name, description, routingToImage, manufacturingDate } = req.query;
-//     try {
-//         let allProducts = {};
-//         let searchObject = {};
-//         if (name)
-//             searchObject.name = new RegExp(name, "i");
-//         if (description)
-//             searchObject.description = description;
-//         allProducts = await Product.find(searchObject)
-//         res.json(allProducts);
-//     }
-//     catch (err) {
-//         res.status(400).send("not all products are available " + err.message);
-//     }
-// }
 
 export const getAllProducts = async (req, res) => {
     try {
