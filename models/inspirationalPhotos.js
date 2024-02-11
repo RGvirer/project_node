@@ -6,13 +6,16 @@ const inspirationalPhotosSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
-        routingToImage:{type:String},
-        productDetails: 
-        // אני רוצה שבתוך השדה פרטי התמונה יהיו אובייקטים עם השדות הבאים
-        //coordinatePoints-שיכיל את הקואורדינטה בה המוצר נמצא בתוך התמונה
-        //productId-ניתוב למוצר ע"י id
+        routingToImage: { type: String },
+        imageDetails: [
+            {
+                coordinatePoints: { type: String },
+                productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
+            }
+        ]
     }
 );
+
 
 export const Product = mongoose.model("product", inspirationalPhotosSchema);
 
@@ -22,6 +25,10 @@ export const inspirationalPhotosValidator = (_inspirationalPhotosValidate) => {
         name: joi.string().required(),
         description: joi.string().required(),
         routingToImage: joi.string().required(),
+        imageDetails: joi.array().items(joi.object({
+            coordinatePoints: joi.string().required(),
+            productId: joi.string().required()
+        })).required()
     });
-    return productJoi.validate(_inspirationalPhotosValidate)
+    return productJoi.validate(_inspirationalPhotosValidate);
 }
