@@ -21,7 +21,7 @@ export const productValidator = (_productToValidate) => {
         description:joi.string().required(),
         manufacturingDate:joi.date().default(Date.now),
         routingToImage: joi.string().default('https://storeserver-uoax.onrender.com/מיכאל.jpg').replace(/^/, 'https://storeserver-uoax.onrender.com/'),
-        coordinatePoints:joi.object().string(),
+        coordinatePoints:joi.object(joi.string)
     });
     return productJoi.validate(_productToValidate)
 }
