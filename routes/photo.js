@@ -1,7 +1,8 @@
 import express from "express";
-import { getAllPhotos } from '../controllers/photo.js'
+import * as photoController from '../controllers/photo.js';
+import { adminAuth } from "../middlewares/authAdmin";
 
 const router = express.Router();
-router.get("/", getAllPhotos);
-
+router.get("/", photoController.getAllPhotos);
+router.post("/",adminAuth,photoController.addNewPhoto);
 export default router;
