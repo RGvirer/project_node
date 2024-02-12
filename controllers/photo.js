@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Photo } from "../models/photo";
+import { Photo } from "../models/photo.js";
 export const getAllPhotos = async (req, res) => {
     try {
         let allPhotos =  await Photo.find();
