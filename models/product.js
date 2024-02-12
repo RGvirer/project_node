@@ -1,4 +1,4 @@
-import joi, { date } from "joi"
+import joi from "joi"
 import mongoose from "mongoose"
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
@@ -18,7 +18,7 @@ export const productValidator = (_productToValidate) => {
     let productJoi = joi.object({
         name: joi.string().required(),
         description: joi.string().required(),
-        manufacturingDate: joi.date().default(Date.now),
+        manufacturingDate: joi.date().default(Date.now()),
         routingToImage: joi.string().required(),
     });
     return productJoi.validate(_productToValidate)
