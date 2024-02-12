@@ -32,10 +32,3 @@ export const addNewPhoto = async (req, res) => {
         res.status(400).send("an error occured in: " + err.message);
     }
 }
-
-// "name": "",
-// "description": "",
-// "routingToImage": "PH194410.webp",
-// "imageDetails":[{"coordinatePoints":"245,62,10","productId":"65ca160bce03785d8ee2982e"}
-// ,{"coordinatePoints":"510,606,10","productId":"65ca160bce03785d8ee2982e"}
-// ,{"coordinatePoints":"392,536,10","productId":"65ca160bce03785d8ee2982e"}]
