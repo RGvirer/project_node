@@ -8,7 +8,7 @@ const photoSchema = mongoose.Schema(
         name: { type: String, required: true },
         description: { type: String, required: true },
         routingToImage: { type: String,required:true },
-        imageDetails: {type:[{ coordinatePoints: {type:String,required:true} , productId:{productSchema}}],required:true}
+        imageDetails: {type:[{ coordinatePoints: {type:String,required:true} , product:{productSchema}}],required:true}
     }
 );
 
@@ -22,7 +22,7 @@ export const photoValidator = (_photoToValidate) => {
         routingToImage: joi.string().required(),
         imageDetails: joi.array().items(joi.object({
             coordinatePoints: joi.string().required(),
-            productId: joi.string().required()
+            product: joi.array(joi.object({photoSchema})).required()
         })).required()
     });
     return photoJoi.validate(_photoToValidate);
