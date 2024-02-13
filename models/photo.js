@@ -22,7 +22,7 @@ export const photoValidator = (_photoToValidate) => {
         routingToImage: joi.string().required(),
         imageDetails: joi.array().items(joi.object({
             coordinatePoints: joi.string().required(),
-            product: joi.array(joi.object({
+            product: joi.array().items(joi.object({
                 name: joi.string().required(),
                 description: joi.string().required(),
                 manufacturingDate: joi.date().default(Date.now()),
