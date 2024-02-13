@@ -1,6 +1,6 @@
 import joi from "joi"
 import mongoose from "mongoose"
-import { productSchema } from "./product";
+import { productSchema } from "./product.js";
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
 const photoSchema = mongoose.Schema(
