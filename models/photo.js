@@ -14,7 +14,6 @@ const photoSchema = mongoose.Schema(
 
 export const Photo = mongoose.model("photo", photoSchema);
 
-// Joi פונקציה המאמתת את המוצר, המתבססת על סכימה מוגדרת מראש באמצעות ספריית
 export const photoValidator = (_photoToValidate) => {
     let photoJoi = joi.object({
         name: joi.string().required(),
@@ -22,12 +21,12 @@ export const photoValidator = (_photoToValidate) => {
         routingToImage: joi.string().required(),
         imageDetails: joi.array().items(joi.object({
             coordinatePoints: joi.string().required(),
-            product: joi.array().items(joi.object({
+            product: joi.object({
                 name: joi.string().required(),
                 description: joi.string().required(),
                 manufacturingDate: joi.date().default(Date.now()),
                 routingToImage: joi.string().required(),
-            })).required()
+            }).required()
         })).required()
     });
     return photoJoi.validate(_photoToValidate);
