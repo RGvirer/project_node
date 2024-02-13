@@ -1,14 +1,14 @@
 import joi from "joi"
 import mongoose from "mongoose"
-
+import { productSchema } from "./product";
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
 const photoSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
-        routingToImage: { type: String },
-        imageDetails: [{ coordinatePoints: { type: String }, productId:{type:mongoose.Types.ObjectId,ref:"product"}}]
+        routingToImage: { type: String,required:true },
+        imageDetails: {type:[{ coordinatePoints: {type:String,required:true} , productId:{productSchema}}],required:true}
     }
 );
 
