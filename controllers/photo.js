@@ -2,7 +2,8 @@ import { Photo,photoValidator } from "../models/photo.js";
 
 export const getAllPhotos = async (req, res) => {
     try {
-        let allPhotos =  await Photo.find();
+        let allPhotos =  await Photo.find().populate("productId");
+        console.log(allPhotos)
         res.json(allPhotos);
     }
     catch (err) {

@@ -2,7 +2,7 @@ import joi from "joi"
 import mongoose from "mongoose"
 
 // mongoose.Schema() הגדרת מודל סכימה של מוצר באמצעות הפונקציה 
-const productSchema = mongoose.Schema(
+export const productSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
