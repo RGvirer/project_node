@@ -17,11 +17,14 @@ export const addNewPhoto = async (req, res) => {
         let validate = photoValidator(req.body);
         let ownerUser = req.uuser._id;
         if (validate.error) {
-            for (let i = 0; i < validate.error.length; i++) {
-                console.log(validate.error[i]);
-            }
-            return res.status(400).json(validate.error[0]);
-        }
+            let errorMessages = [];
+            validate.error.details.forEach((errorDetail) => {
+                const { message, path } = errorDetail;
+                const errorMessage = `${path.join('.')} ${message}`;
+                errorMessages.push(errorMessage);
+            });
+            return res.status(400).send(errorMessages);
+        };
 
         let samePhotos = await Photo.find(req.body);
         if (samePhotos.length > 0)
@@ -32,5 +35,5 @@ export const addNewPhoto = async (req, res) => {
     }
     catch (err) {
         res.status(400).send("an error occured in: " + err.message);
-    }
+    }    
 }

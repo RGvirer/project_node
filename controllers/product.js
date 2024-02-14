@@ -64,20 +64,22 @@ export const deleteProductById = async (req, res) => {
 
 export const addNewProduct = async (req, res) => {
     try {
-        let { name, description, routingToImage, manufacturingDate } = req.body;
-        let validate = productValidator(req.body);
+        let { name, description, routingToImage, manufacturingDate,price} = req.body;
         let ownerUser = req.uuser._id;
+        let validate = productValidator({...req.body,ownerUser});
         if (validate.error) {
-            for (let i = 0; i < validate.error.length; i++) {
-                console.log(validate.error[i]);
-            }
-            return res.status(400).json(validate.error[0]);
-        }
-
+            let errorMessages = [];
+            validate.error.details.forEach((errorDetail) => {
+                const { message, path } = errorDetail;
+                const errorMessage = `${path.join('.')} ${message}`;
+                errorMessages.push(errorMessage);
+            });
+            return res.status(400).send(errorMessages);
+        };
         let sameProducts = await Product.find(req.body);
         if (sameProducts.length > 0)
             return res.status(409).send("this product already exists ");
-        let newProduct = new Product({ name, description, routingToImage, manufacturingDate, ownerUser });
+        let newProduct = new Product({ name,price, description, routingToImage, manufacturingDate, ownerUser });
         await newProduct.save();
         res.status(201).json(newProduct)
     }

@@ -30,8 +30,10 @@ export const photoValidator = (_photoToValidate) => {
                     {
                         name: joi.string().required(),
                         description: joi.string().required(),
+                        price: joi.number().required(),
                         manufacturingDate: joi.date().default(Date.now()),
                         routingToImage: joi.string().required(),
+                        ownerUser:joi.string().required()
                     }
                 ).required()
             }
