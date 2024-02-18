@@ -2,12 +2,22 @@ import { Photo,photoValidator } from "../models/photo.js";
 
 export const getAllPhotos = async (req, res) => {
     try {
-        let allPhotos =  await Photo.find();
-        console.log(allPhotos)
-        res.json(allPhotos);
-    }
-    catch (err) {
-        res.status(400).send("not all photos are available " + err.message);
+        let { numOfScreen, photosInScreen, textToSearch} = req.query;
+        if (!photosInScreen)
+            photosInScreen = 30;
+        if (!numOfScreen)
+            numOfScreen = 1;
+        let search = {};
+        if (textToSearch) {
+            search = {
+                $or: [{ model: { $regex: `.*${textToSearch}.*`, $options: 'i' } },
+                { description: { $regex: `.*${textToSearch}.*`, $options: 'i' } }]
+            };
+        }
+        let photos = await Photo.find(search).skip((numOfScreen - 1) * photosInScreen).limit(photosInScreen);
+        res.json(photos);
+    } catch (err) {
+        res.status(400).send("problem: " + err.message);
     }
 }
 
