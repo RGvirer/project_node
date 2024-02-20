@@ -8,7 +8,7 @@ export const productSchema = mongoose.Schema(
         price: { type: Number, required: true },
         description: { type: String, required: true },
         manufacturingDate: { type: Date },
-        routingToImage: { type: String, required: true },
+        routingToImage: { type: [String], required: true },
         ownerUser:{type:mongoose.Schema.Types.ObjectId,required:true}
     }
 );
@@ -22,7 +22,7 @@ export const productValidator = (_productToValidate) => {
         price: joi.number().required(),
         description: joi.string().required(),
         manufacturingDate: joi.date().default(Date.now()),
-        routingToImage: joi.string().required(),
+        routingToImage: joi.array().string().required(),
         ownerUser:joi.string().hex().length(24).required()
     });
     return productJoi.validate(_productToValidate)
