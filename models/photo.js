@@ -6,7 +6,7 @@ const photoSchema = mongoose.Schema(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
-        routingToImage: { type: String, required: true },
+        routingToImage: { type: [String], required: true },
         imageDetails: { 
             type: [{ 
                 coordinatePoints: { type: String, required: true }, 
