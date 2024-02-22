@@ -4,7 +4,7 @@ export const getAllPhotos = async (req, res) => {
     try {
         let { numOfScreen, photosInScreen, textToSearch} = req.query;
         if (!photosInScreen)
-            photosInScreen = 30;
+            photosInScreen = 2;
         if (!numOfScreen)
             numOfScreen = 1;
         let search = {};
