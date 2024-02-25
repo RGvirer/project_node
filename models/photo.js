@@ -7,12 +7,12 @@ const photoSchema = mongoose.Schema(
         name: { type: String, required: true },
         description: { type: String, required: true },
         routingToImage: { type: String, required: true },
-        imageDetails: { 
-            type: [{ 
-                coordinatePoints: { type: String, required: true }, 
-                product: { type: productSchema } 
-            }], 
-            required: true 
+        imageDetails: {
+            type: [{
+                coordinatePoints: { type: String, required: true },
+                product: { type: productSchema, required: true }
+            }],
+            required: true
         }
     }
 );
@@ -33,7 +33,7 @@ export const photoValidator = (_photoToValidate) => {
                         price: joi.number().required(),
                         manufacturingDate: joi.date().default(Date.now()),
                         routingToImage: joi.string().required(),
-                        ownerUser:joi.string().required()
+                        ownerUser: joi.string().required()
                     }
                 ).required()
             }
