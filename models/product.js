@@ -25,7 +25,7 @@ export const productValidator = (_productToValidate) => {
         manufacturingDate: joi.date().default(Date.now()),
         routingToImage: joi.array().items(joi.string()).required(),
         ownerUser: joi.string().hex().length(24).required(),
-        details: joi.string()
+        details: joi.string() 
     });
     return productJoi.validate(_productToValidate)
 }
