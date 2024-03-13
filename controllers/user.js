@@ -9,12 +9,12 @@ export const addNewUser = async (req, res) => {
         let validate = userValidator(req.body);
         if (!/[0-9]{2}[A-Za-z]{2}/.test(password))
             return res.status(400).send("password is not valid");
-        if (validate.error) {
-            res.status(400).send(validate.error.details[0]);
-        }
         let sameUsers = await User.find(req.body);
         if (sameUsers.length > 0) {
             res.status(409).send("this user already exists ");
+        }
+        if (validate.error) {
+            res.status(400).send(validate.error.details[0]);
         }
         let hushPassword = await bcyript.hash(password, 15);
         let newUser = new User({ name, password: hushPassword, email });
