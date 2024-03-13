@@ -64,9 +64,9 @@ export const deleteProductById = async (req, res) => {
 
 export const addNewProduct = async (req, res) => {
     try {
-        let { name, description, routingToImage, manufacturingDate,price} = req.body;
+        let { name, description, routingToImage, manufacturingDate, price, details } = req.body;
         let ownerUser = req.uuser._id;
-        let validate = productValidator({...req.body,ownerUser});
+        let validate = productValidator({ ...req.body, ownerUser });
         if (validate.error) {
             let errorMessages = [];
             validate.error.details.forEach((errorDetail) => {
@@ -79,7 +79,7 @@ export const addNewProduct = async (req, res) => {
         let sameProducts = await Product.find(req.body);
         if (sameProducts.length > 0)
             return res.status(409).send("this product already exists ");
-        let newProduct = new Product({ name,price, description, routingToImage, manufacturingDate, ownerUser });
+        let newProduct = new Product({ name, price, description, routingToImage, manufacturingDate, details, ownerUser });
         await newProduct.save();
         res.status(201).json(newProduct)
     }
@@ -90,7 +90,8 @@ export const addNewProduct = async (req, res) => {
 
 export const updateProductById = async (req, res) => {
     let { id } = req.params;
-    let { name, numPages, audience } = req.body;
+    let { name, description, routingToImage, manufacturingDate, price, details } = req.body;
+    let ownerUser = req.uuser._id;
     if (!mongoose.isValidObjectId(id))
         return res.status(400).send("not valid id")
     try {
@@ -98,8 +99,12 @@ export const updateProductById = async (req, res) => {
         if (!product)
             return res.status(404).send("no such product");
         product.name = name || product.name;
-        product.numPages = numPages || product.numPages;
-        product.audience = audience || product.audience;
+        product.description = description || product.description;
+        product.manufacturingDate = manufacturingDate || product.manufacturingDate;
+        product.price = price || product.price;
+        product.details = details || product.details;
+        product.routingToImage = routingToImage || product.routingToImage;
+        product.ownerUser = ownerUser || product.ownerUser;
         await product.save();
         res.json(product);
     }
