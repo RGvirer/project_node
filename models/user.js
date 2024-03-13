@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     name: { type: String, required: true },
     password: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
-    role: { type: String, default: "admin"}
+    role: { type: String, default: "user"}
 
 }, { timestamps: true });
 export const User = mongoose.model("users", userSchema);
@@ -17,7 +17,7 @@ export const userValidator = (_userToValidate) => {
         name: joi.string().required(),
         password: joi.string().required().regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/),
         email: joi.string().email().required(),
-        role: joi.string().default("admin")
+        role: joi.string().default("user")
     });
     return userJoi.validate(_userToValidate);
 }
