@@ -61,10 +61,9 @@ export const deleteProductById = async (req, res) => {
 
 }
 
-
 export const addNewProduct = async (req, res) => {
     try {
-        let { name, description, routingToImage, manufacturingDate, price, details } = req.body;
+        let { name, description, routingToImage, manufacturingDate, price, details, size } = req.body;
         let ownerUser = req.uuser._id;
         let validate = productValidator({ ...req.body, ownerUser });
         if (validate.error) {
@@ -79,7 +78,7 @@ export const addNewProduct = async (req, res) => {
         let sameProducts = await Product.find(req.body);
         if (sameProducts.length > 0)
             return res.status(409).send("המוצר הזה כבר נכנס למערכת ");
-        let newProduct = new Product({ name, price, description, routingToImage, manufacturingDate, details, ownerUser });
+        let newProduct = new Product({ name, price, description, routingToImage, manufacturingDate, details, ownerUser, size });
         await newProduct.save();
         res.status(201).json(newProduct)
     }
