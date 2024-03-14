@@ -28,7 +28,7 @@ export const getAllProducts = async (req, res) => {
         let products = await Product.find(search).skip((numOfScreen - 1) * productsInScreen).limit(productsInScreen);
         res.json(products);
     } catch (err) {
-        res.status(400).send("problem: " + err.message);
+        res.status(400).send("הבעיה: " + err.message);
     }
 };
 
@@ -37,26 +37,26 @@ export const getProductById = async (req, res) => {
     try {
         let { id } = req.params;
         if (!mongoose.isValidObjectId(id))
-            return res.status(400).send("this id is not valid")
+            return res.status(400).send("id לא תקין")
         let product = await Product.findById(id);
         if (!product)
-            return res.status(404).send("no such product");
+            return res.status(404).send("אין כזה מוצר");
         res.json(product)
     }
     catch (err) {
-        res.status(400).send("The product cannot be received " + err.message);
+        res.status(400).send("לא אפשרי להביא את המוצר: " + err.message);
     }
 }
 export const deleteProductById = async (req, res) => {
     let { id } = req.params;
     if (!mongoose.isValidObjectId(id))
-        return res.status(400).send("not valid id");
+        return res.status(400).send("id לא תקין");
     let product = await Product.findById(id);
     if (product.ownerUser != req.uuser._id)
-        return res.status(403).send("you can only delete products that you have added");
+        return res.status(403).send("ביכולתך למחוק רק מוצרים שאתה הוספת");
     let deletedProduct = await Product.findByIdAndDelete(id);
     if (!deletedProduct)
-        return res.status(404).send("no such product was found");
+        return res.status(404).send("לא נמצא כזה מוצר למחיקה");
     return res.json(deletedProduct);
 
 }
@@ -78,13 +78,13 @@ export const addNewProduct = async (req, res) => {
         };
         let sameProducts = await Product.find(req.body);
         if (sameProducts.length > 0)
-            return res.status(409).send("this product already exists ");
+            return res.status(409).send("המוצר הזה כבר נכנס למערכת ");
         let newProduct = new Product({ name, price, description, routingToImage, manufacturingDate, details, ownerUser });
         await newProduct.save();
         res.status(201).json(newProduct)
     }
     catch (err) {
-        res.status(400).send("an error occured in: " + err.message);
+        res.status(400).send("השגיאה ב: " + err.message);
     }
 }
 
@@ -93,11 +93,11 @@ export const updateProductById = async (req, res) => {
     let { name, description, routingToImage, manufacturingDate, price, details } = req.body;
     let ownerUser = req.uuser._id;
     if (!mongoose.isValidObjectId(id))
-        return res.status(400).send("not valid id")
+        return res.status(400).send("id לא תקין")
     try {
         let product = await Product.findById(id);
         if (!product)
-            return res.status(404).send("no such product");
+            return res.status(404).send("אין כזה מוצר");
         product.name = name || product.name;
         product.description = description || product.description;
         product.manufacturingDate = manufacturingDate || product.manufacturingDate;
@@ -109,6 +109,6 @@ export const updateProductById = async (req, res) => {
         res.json(product);
     }
     catch (err) {
-        res.status(400).send("its impossible to update this product" + err.message);
+        res.status(400).send("לא אפשרי לערוך את המוצר " + err.message);
     }
 }
