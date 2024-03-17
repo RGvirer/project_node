@@ -25,8 +25,8 @@ export const getAllProducts = async (req, res) => {
                 search.price.$lte = parseFloat(maxPrice);
             }
         }
-        let products = await Product.find(search).skip((numOfScreen - 1) * productsInScreen).limit(productsInScreen);
-        res.json(products);
+        let productsCount = await Product.countDocuments(search);
+        res.json(productsCount);
     } catch (err) {
         res.status(400).send("הבעיה: " + err.message);
     }
