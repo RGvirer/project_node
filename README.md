@@ -1,4 +1,4 @@
-# MERN Ecommerce Application
+# Ecommerce Application
 
 <code>Currently under construction for additional features</code>
 
@@ -30,7 +30,7 @@ After you cloned the repository do not start the application. To run the applica
 
 ```
     NODE_ENV = development
-    PORT = 5000
+    PORT = 6000
     MONGO_URI = mongodb+srv://<your uri from mongodb website>
 ```
 
