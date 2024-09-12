@@ -33,3 +33,7 @@ Follow the instructions below to set up and run the project locally.
    ```bash
    git clone https://github.com/your-username/your-backend-repo.git
    cd your-backend-repo
+
+## Live Demo
+[Visit the live website](https://homedesignstore.netlify.app)
+
