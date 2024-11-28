@@ -3,11 +3,14 @@ name: Report Deployment to GitHub
 on:
   push:
     branches:
-      - main  # או הענף שבו את רוצה להריץ את ה-Workflow
+      - main  # הענף שבו את רוצה להריץ את ה-Workflow
 
 jobs:
   report-deployment:
     runs-on: ubuntu-latest
+    permissions:
+      deployments: write  # הרשאות כתיבה לדפלוימנט
+
     steps:
       - name: Report Deployment to GitHub
         uses: actions/github-script@v6
@@ -17,9 +20,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,
-              environment: 'production',  // יש לבחור את הסביבה המתאימה
               auto_merge: false,
               required_contexts: [],
-              payload: { custom_data: "example" }  // החליפי את זה בערכים רלוונטיים
+              payload: { custom_data: "example" }  // עדכני את המידע המותאם לצרכים שלך
             });
             console.log('Deployment reported:', deployment);
