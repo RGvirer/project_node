@@ -1,0 +1,17 @@
+name: Report Deployment to GitHub
+
+on:
+  push:
+    branches:
+      - main  # או הענף שבו את רוצה להריץ את ה-Workflow
+
+jobs:
+  report-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Deployment to GitHub
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { exec } = require('@actions/exec');
+            await exec('curl -X POST https://api.github.com/repos/${{ github.repository }}/deployments --data @deployment_payload.json');
