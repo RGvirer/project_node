@@ -13,7 +13,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { exec } = require('@actions/exec');
-            (async () => {
-              await exec('curl -X POST https://api.github.com/repos/${{ github.repository }}/deployments --data @deployment_payload.json');
-            })();
+            const { data: deployment } = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'production',  // יש לבחור את הסביבה המתאימה
+              auto_merge: false,
+              required_contexts: [],
+              payload: { custom_data: "example" }  // החליפי את זה בערכים רלוונטיים
+            });
+            console.log('Deployment reported:', deployment);
