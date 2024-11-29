@@ -4,7 +4,7 @@
 This is the backend for an E-Commerce website built using Node.js and Express. It provides APIs for managing products, user authentication, and shopping cart functionality. The data is stored in a MongoDB database, and authentication is handled via JWT (JSON Web Tokens).
 
 ## Features
-- **Product Management**: API endpoints for adding, updating, deleting, and retrieving products
+- **Product Management**: API endpoints for adding, updating, deleting, and retrieving products.
 - **User Authentication**: User registration, login, and JWT-based authentication.
 - **Shopping Cart Management**: APIs to manage items in a user's cart.
 - **Order Management**: APIs for placing and viewing orders.
