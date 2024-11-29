@@ -20,8 +20,19 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,
+              environment: 'production',
               auto_merge: false,
               required_contexts: [],
               payload: { custom_data: "example" }  // עדכני את המידע המותאם לצרכים שלך
             });
             console.log('Deployment reported:', deployment);
+
+            // Update the deployment status to "success"
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.id,
+              state: 'success',  // Set status to 'success'
+              description: 'Deployment completed successfully',
+              environment_url: 'https://example.com'  // optional URL to the deployed app
+            });
