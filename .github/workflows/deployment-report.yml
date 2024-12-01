@@ -34,5 +34,5 @@ jobs:
               deployment_id: deployment.id,
               state: 'success',  // Set status to 'success'
               description: 'Deployment completed successfully',
-              environment_url: 'https://example.com'  // optional URL to the deployed app
+              environment_url: 'https://storeserver-uoax.onrender.com/api/products'  // optional URL to the deployed app
             });
