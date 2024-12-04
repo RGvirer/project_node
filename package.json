@@ -9,6 +9,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "16.3.1",
@@ -24,5 +25,14 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "type": "module"
+  "type": "module",
+  "babel": {
+    "env": {
+      "production": {
+        "plugins": [
+          "transform-remove-console"
+        ]
+      }
+    }
+  }
 }
