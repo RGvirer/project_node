@@ -8,6 +8,7 @@ import orderRouter from "./routes/order.js";
 import morgan from "morgan";
 import cors from "cors"
 import { erroHandling } from "./middlewares/erroHandling.js"
+import chatRouter from "./routes/chat.js";
 
 config();
 connectDB();
@@ -21,7 +22,11 @@ app.use("/api/photos",photoRouter);
 app.use("/api/products",productRouter);
 app.use("/api/users",userRouter);
 app.use("/api/orders",orderRouter);
-app.use(erroHandling)//בלי סוגריים
+app.use("/api/chat", chatRouter);
+import dotenv from "dotenv";
+
+dotenv.config();
+app.use(erroHandling)
 app.use((err,req,res,next)=>{
     res.status(res.status||500).send(err.message||"a fault has occurred");
 })
