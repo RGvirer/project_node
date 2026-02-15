@@ -1,36 +1,55 @@
 import express from "express";
 import { config } from "dotenv";
-import {connectDB} from "./config/dbConfig.js"
+import { connectDB } from "./config/dbConfig.js";
 import productRouter from "./routes/product.js"; 
 import userRouter from "./routes/user.js"; 
-import photoRouter from "./routes/photo.js"
+import photoRouter from "./routes/photo.js";
 import orderRouter from "./routes/order.js"; 
-import morgan from "morgan";
-import cors from "cors"
-import { erroHandling } from "./middlewares/erroHandling.js"
 import chatRouter from "./routes/chat.js";
+import morgan from "morgan";
+import cors from "cors";
+import { erroHandling } from "./middlewares/erroHandling.js";
 
+// טוען את משתני הסביבה
 config();
-connectDB();
 
-const app=express();
-app.use(express.static('images'));
-app.use(morgan("common"));
-app.use(express.json());
-app.use(cors());
-app.use("/api/photos",photoRouter);
-app.use("/api/products",productRouter);
-app.use("/api/users",userRouter);
-app.use("/api/orders",orderRouter);
-app.use("/api/chat", chatRouter);
-import dotenv from "dotenv";
+// פונקציה שמתחילה את השרת רק אחרי החיבור למסד
+const startServer = async () => {
+    try {
+        await connectDB(); // מחכה שהחיבור ל-MongoDB יצליח
+        console.log("Connected to MongoDB successfully");
 
-dotenv.config();
-app.use(erroHandling)
-app.use((err,req,res,next)=>{
-    res.status(res.status||500).send(err.message||"a fault has occurred");
-})
-let port=process.env.PORT||6000
-app.listen(port,()=>{
-    console.log("listening on port "+port);
-});
+        const app = express();
+
+        // Middlewares
+        app.use(express.static('images'));
+        app.use(express.json());
+        app.use(morgan("common"));
+        app.use(cors());
+
+        // Routes
+        app.use("/api/photos", photoRouter);
+        app.use("/api/products", productRouter);
+        app.use("/api/users", userRouter);
+        app.use("/api/orders", orderRouter);
+        app.use("/api/chat", chatRouter);
+
+        // Error handling middleware
+        app.use(erroHandling);
+        app.use((err, req, res, next) => {
+            res.status(err.status || 500).send(err.message || "A fault has occurred");
+        });
+
+        // Start server
+        const port = process.env.PORT || 6000;
+        app.listen(port, () => {
+            console.log("Server listening on port " + port);
+        });
+
+    } catch (err) {
+        console.log("Failed to start server:", err);
+        process.exit(1);
+    }
+};
+
+startServer();
